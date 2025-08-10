@@ -1,0 +1,86 @@
+title: >-
+  Feed Enhancer: RSS Feed Enhancer
+mission: >-
+  Improve signal-to-noise ratio of RSS feeds.
+vision: >-
+  World where people read less, learn more.
+businessObjectives:
+  - id: BO-0001
+    description: >-
+      Reduce the amount of noise in RSS feeds based on the user's preferences
+  - id: BO-0002
+    description: >-
+      Enhance the quality of relevant content in RSS feeds based on the user's preferences
+features:
+  - id: FE-0001
+    title: Read and validate a config file
+    description: >-
+      The CLI accepts a `--config` option that specifies the path to the config file containing a list of RSS feeds and the user's preferences.
+    covers: [BO-0001, BO-0002]
+  - id: FE-0002
+    title: Filtering by allow-list
+    description: >-
+      The CLI filters each feed to include only items that match the user's allow-list defined in the config.
+    covers: [BO-0001]
+    prerequisites: [FE-0001]
+  - id: FE-0003
+    title: Filtering by block-list
+    description: >-
+      The CLI filters each feed to exclude items that match the user's block-list defined in the config.
+    covers: [BO-0001]
+    prerequisites: [FE-0001]
+acceptanceTests:
+  - id: AT-0001
+    covers: FE-0001
+    given: a valid config file
+    when: the user runs "feed-enhancer --c path/to/conf.yaml --i path/to/input_dir --o path/to/output_dir"
+    then: the CLI exits with code 0
+  - id: AT-0002
+    covers: FE-0001
+    given: no config file
+    when: the user runs "feed-enhancer"
+    then: the files in the output directory should be the exact same as the files in the input directory
+  - id: AT-0003
+    covers: FE-0002
+    given: a valid config file with an allow-list containing "tech" and input feeds that include both matching and non-matching items
+    when: the user runs "feed-enhancer --c path/to/conf.yaml --i path/to/input_dir --o path/to/output_dir"
+    then: each output feed contains only the items that match the allow-list; non-matching items are excluded
+  - id: AT-0004
+    covers: FE-0002
+    given: a valid config file with an allow-list whose terms do not match any items in the input feeds
+    when: the user runs "feed-enhancer --c path/to/conf.yaml --i path/to/input_dir --o path/to/output_dir"
+    then: the corresponding output feeds are valid but contain zero items
+  - id: AT-0005
+    covers: FE-0003
+    given: a valid config file with a block-list containing "sponsored" and input feeds that include both matching and non-matching items
+    when: the user runs "feed-enhancer --c path/to/conf.yaml --i path/to/input_dir --o path/to/output_dir"
+    then: each output feed excludes the items that match the block-list; non-matching items are retained
+  - id: AT-0006
+    covers: FE-0003
+    given: a valid config file with a block-list whose terms match all items in the input feeds
+    when: the user runs "feed-enhancer --c path/to/conf.yaml --i path/to/input_dir --o path/to/output_dir"
+    then: the corresponding output feeds are valid but contain zero items
+connectors:
+  listAcceptanceTests: |- # Prints ATs in the format: "AT-0001: TITLE"
+    npx vitest list --project=acceptance | awk -F'> ' '{split($1, parts, "/"); id=parts[length(parts)]; print id ": " $2}' | sed 's/\.test\.ts : /: /'
+  locateAcceptanceTest: |-
+    echo "src/at/{ID}.test.ts"
+  runAcceptanceTest: |-  # TAP-flat format
+    npm run --silent test:acceptance -- src/at/{ID}.test.ts
+  runAcceptanceTests: |-  # TAP-flat format
+    npm run --silent test:acceptance
+tools:
+  - id: biome
+    command: npm run --silent check:biome
+  - id: tsc
+    command: npm run --silent check:tsc
+  - id: eslint
+    command: npm run --silent check:eslint
+  - id: depcruise
+    command: npm run --silent check:depcruise
+  - id: knip
+    command: npm run --silent check:knip
+  - id: jscpd
+    command: npm run --silent check:jscpd
+  - id: unittest
+    command: npm run --silent test:coverage

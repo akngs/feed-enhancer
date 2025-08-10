@@ -1,0 +1,16 @@
+# Project
+.env
+/dist
+
+# Data
+/input/**
+!/input/.keep
+/output/**
+!/output/.keep
+
+# JS
+node_modules/
+coverage/
+
+# OS
+.DS_Store
