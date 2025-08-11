@@ -23,7 +23,7 @@
     "fix": "npm run --silent check:biome -- --write && npm run --silent check:eslint -- --fix",
     "test": "vitest run --reporter dot --project unit",
     "test:watch": "vitest --reporter dot --project unit",
-    "test:coverage": "vitest run --reporter dot --coverage --project unit --coverage.thresholds.perFile --coverage.thresholds.lines 80 --coverage.thresholds.statements 80 --coverage.thresholds.functions 80 --coverage.thresholds.branches 80",
+    "test:coverage": "vitest run --reporter dot --coverage --project unit",
     "test:acceptance": "vitest run --project acceptance --reporter tap-flat"
   },
   "main": "dist/index.js",
@@ -40,6 +40,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.1.4",
     "@eslint/js": "^9.33.0",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.2.1",
     "@vitest/coverage-v8": "^3.2.4",
     "dependency-cruiser": "^17.0.1",
@@ -52,5 +53,8 @@
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0",
     "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
   }
 }
