@@ -1,0 +1,6 @@
+---
+alwaysApply: true
+---
+Always run `s4 status` to get the status of the project and the next action to take. This tool will give you the full context you need to know. Before stating you've completed the task, run `s4 status` again to make sure you've completed all the steps.
+
+You don't need to run individual commands like `npm run test`, `npm run check`, etc, because `s4 status` will do that for you.
