@@ -27,6 +27,7 @@ export default defineConfig({
         ...coverageConfigDefaults.exclude,
         "src/test-utils.ts",
         "src/index.ts",
+        "src/at/test-helper.ts",
       ],
     },
   },
