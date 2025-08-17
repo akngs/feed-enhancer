@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import { coverageConfigDefaults, defineConfig } from "vitest/config"
 
 export default defineConfig({
